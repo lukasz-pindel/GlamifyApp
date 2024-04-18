@@ -1,0 +1,51 @@
+﻿html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    overflow-x: hidden;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.pt-sans-regular {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .pt-sans-bold {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .pt-sans-regular-italic {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .pt-sans-bold-italic {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .form-control:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .accordion-button:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: #747274;
+    color: white;
+  }
+
+  .accordion-button:not(.collapsed) {
+      background-color: #747274;
+      color: white;
+  }
