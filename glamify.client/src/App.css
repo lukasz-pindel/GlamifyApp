@@ -49,3 +49,30 @@
       background-color: #747274;
       color: white;
   }
+
+  .nav-link {
+    color: white;
+  }
+
+  .nav-link:hover {
+    color: white;
+  }
+
+  .explore-btn {
+    background-color: #7c90a0; 
+    border-color: #7c90a0; 
+    color: #fff; 
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+}
+
+.explore-btn:hover,
+.explore-btn:focus, 
+.explore-btn:active { 
+    background-color: #667482; 
+    border-color: #667482; 
+    color: #ffffff; 
+}
+
+.custom-carousel button {
+  background-color: black !important; /* Or any color that fits your design */
+}
