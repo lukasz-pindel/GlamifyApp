@@ -1,68 +1,69 @@
 ﻿html, body, #root {
-    height: 100%;
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    overflow-x: hidden;
-    font-family: "PT Sans", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  overflow-x: hidden;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .pt-sans-regular {
-    font-family: "PT Sans", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  .pt-sans-bold {
-    font-family: "PT Sans", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  .pt-sans-regular-italic {
-    font-family: "PT Sans", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-  
-  .pt-sans-bold-italic {
-    font-family: "PT Sans", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-  }
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
-  .form-control:focus {
-    outline: none;
-    box-shadow: none;
-  }
+.pt-sans-bold {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
 
-  .accordion-button:focus {
-    outline: none;
-    box-shadow: none;
+.pt-sans-regular-italic {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.pt-sans-bold-italic {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.accordion-button:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: #747274;
+  color: white;
+}
+
+.accordion-button:not(.collapsed) {
     background-color: #747274;
     color: white;
-  }
+}
 
-  .accordion-button:not(.collapsed) {
-      background-color: #747274;
-      color: white;
-  }
+.nav-link {
+  color: white;
+  opacity: 1 !important; 
+}
 
-  .nav-link {
-    color: white;
-  }
+.nav-link:hover {
+  color: white;
+}
 
-  .nav-link:hover {
-    color: white;
-  }
-
-  .explore-btn {
-    background-color: #7c90a0; 
-    border-color: #7c90a0; 
-    color: #fff; 
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+.explore-btn {
+  background-color: #7c90a0; 
+  border-color: #7c90a0; 
+  color: #fff; 
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
 }
 
 .explore-btn:hover,
@@ -73,6 +74,27 @@
     color: #ffffff; 
 }
 
+.book-btn {
+  background-color: #b5aa9d; 
+  border-color: #b5aa9d; 
+  color: #fff; 
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+}
+
+.book-btn:hover,
+.book-btn:focus, 
+.book-btn:active { 
+  background-color: #8f867b; 
+  border-color: #8f867b; 
+  color: #ffffff; 
+}
+
 .custom-carousel button {
-  background-color: black !important; /* Or any color that fits your design */
+  background-color: black !important; 
+}
+
+.tabs-container {
+  background-color: transparent; 
+  z-index: 9999;
+  position: relative;
 }

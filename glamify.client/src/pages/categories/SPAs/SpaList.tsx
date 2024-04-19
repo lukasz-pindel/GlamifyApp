@@ -4,8 +4,8 @@ import { placesInCategories } from '../../../mockData/places';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-export const NailSalonsList: React.FC = () => {
-    const nailSalons = placesInCategories.nailSalons;
+export const SPAlist: React.FC = () => {
+    const spas = placesInCategories.spas;
     const navigate = useNavigate();
 
     const handleBackToExplore = () => {
@@ -15,7 +15,7 @@ export const NailSalonsList: React.FC = () => {
     const handleBooking = (id: number) => {
         console.log(id);
     }
-    
+
     return (
         <Container className="mb-5 mt-5">
             <Row className="justify-content-between align-items-center mb-5 pt-4">
@@ -25,24 +25,24 @@ export const NailSalonsList: React.FC = () => {
                     </Button>
                 </Col>
                 <Col xs={12} md={12} className="text-center">
-                    <h1>Featured Nail Salons</h1>
+                    <h1>Featured SPAs</h1>
                 </Col>
             </Row>
-            {nailSalons.map(nailSalon => (
-                <Row key={nailSalon.id} className="mb-3">
+            {spas.map(spa => (
+                <Row key={spa.id} className="mb-3">
                     <Col md={4}>
                         <Card>
-                            <Card.Img variant="top" src={nailSalon.logo} alt={nailSalon.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                            <Card.Img variant="top" src={spa.logo} alt={spa.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
                         </Card>
                     </Col>
                     <Col md={4}>
                         <Card.Body>
-                            <Card.Title>{nailSalon.name}</Card.Title>
-                            <Card.Text>{nailSalon.address}</Card.Text>
+                            <Card.Title>{spa.name}</Card.Title>
+                            <Card.Text>{spa.address}</Card.Text>
                         </Card.Body>
                     </Col>
                     <Col md={4} className="text-md-right">
-                        <Button variant="primary" onClick={() => handleBooking(nailSalon.id)} className="book-btn">Book</Button>
+                        <Button variant="primary" onClick={() => handleBooking(spa.id)} className="book-btn">Book</Button>
                     </Col>
                 </Row>
             ))}

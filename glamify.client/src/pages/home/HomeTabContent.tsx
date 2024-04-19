@@ -20,8 +20,8 @@ export const HomeTabContent: React.FC<HomeTabContentProps> = (props) => {
                     <p className="mt-2">
                         Start by browsing our services or if you're already a member, book your next appointment right away!
                     </p>
-                    <Button variant="primary" size="lg" className="mt-3 explore-btn" onClick={onNavigate}>
-                        Explore Services
+                    <Button variant="primary" size="lg" className="mt-3 book-btn" onClick={onNavigate}>
+                        Explore Categories
                     </Button>
                 </Col>
             </Row>

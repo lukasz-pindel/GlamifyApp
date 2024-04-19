@@ -8,6 +8,8 @@ import {ContactUsPage} from "./ContactPage";
 import { AboutUsPage } from "./AboutUsPage";
 import { BarbersList } from "./categories/barbers/BarbersList";
 import { NailSalonsList } from "./categories/nailSalons/NailSalonsList";
+import { SPAlist } from "./categories/SPAs/SpaList";
+import { MassagesList } from "./categories/massages/MassagesList";
 
 export const Root: React.FC = () => {
     return (
@@ -19,7 +21,9 @@ export const Root: React.FC = () => {
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/barbers" element={<BarbersList />} />
+          <Route path="/spas" element={<SPAlist />} />
           <Route path="/nailSalons" element={<NailSalonsList />} />
+          <Route path="/massages" element={<MassagesList />} />
         </Routes>
         <Footer />
       </BrowserRouter>
