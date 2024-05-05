@@ -12,11 +12,11 @@ namespace Glamify.Domain.Entities
     {
         public int UserId { get; set; }
         public User User { get; set; }
-        public int ServiceId { get; set; }
-        public Service Service { get; set; }
         public int LocationId { get; set; }
         public Business Location { get; set; }
         public DateTime AppointmentTime { get; set; }
         public AppointmentStatus Status { get; set; } 
+
+        public virtual ICollection<Service> Services { get; set; } = new List<Service>();
     }
 }
