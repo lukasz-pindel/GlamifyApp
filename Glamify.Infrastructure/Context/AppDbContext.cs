@@ -16,10 +16,14 @@ namespace Glamify.Infrastructure.Context
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Business> Businesses { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
 }

@@ -10,11 +10,11 @@ namespace Glamify.Domain.Entities
 {
     public class User : BaseEntity
     {
-        public string Username { get; set; }
-        public string Password { get; set; } 
-        public string Email { get; set; }
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public string Email { get; set; } = null!;
         public UserType UserType { get; set; } 
-
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }
