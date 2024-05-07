@@ -13,7 +13,7 @@ namespace Glamify.Domain.Entities
         public string Description { get; set; } = null!;
         public decimal Price { get; set; }
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
-        public int BusinessLocationId { get; set; } 
-        public virtual Business BusinessLocation { get; set; } = null!;
+        public int BusinessId { get; set; } 
+        public virtual Business Business { get; set; } = null!;
 }
 }

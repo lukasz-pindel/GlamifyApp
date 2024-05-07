@@ -12,11 +12,12 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
                .WithMany(u => u.Appointments)
                .HasForeignKey(a => a.UserId);
         builder.HasOne(a => a.Location)
-               .WithMany()  // If Location has a collection of Appointments, specify it here
+               .WithMany()                
                .HasForeignKey(a => a.LocationId);
+
 
         builder.HasMany(a => a.Services)
                .WithMany(s => s.Appointments)
-               .UsingEntity(j => j.ToTable("AppointmentServices"));  // Custom join table for the many-to-many relationship
+               .UsingEntity(j => j.ToTable("AppointmentServices"));  
     }
 }

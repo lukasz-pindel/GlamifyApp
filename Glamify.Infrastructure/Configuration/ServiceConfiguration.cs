@@ -15,9 +15,9 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                .WithMany(a => a.Services)
                .UsingEntity(j => j.ToTable("AppointmentServices"));
 
-        builder.HasOne(s => s.BusinessLocation)
+        builder.HasOne(s => s.Business)
                .WithMany(b => b.ServicesOffered)
-               .HasForeignKey(s => s.BusinessLocationId)
+               .HasForeignKey(s => s.BusinessId)
                .OnDelete(DeleteBehavior.Restrict);
     }
 }

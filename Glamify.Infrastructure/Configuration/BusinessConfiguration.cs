@@ -13,10 +13,9 @@ public class BusinessConfiguration : IEntityTypeConfiguration<Business>
         builder.Property(b => b.Email).HasMaxLength(100);
 
         builder.HasMany(b => b.ServicesOffered)
-               .WithMany()
-               .UsingEntity(j => j.ToTable("BusinessServices"));
+               .WithOne(s => s.Business)
+               .HasForeignKey(s => s.BusinessId);
 
-        // Configure the one-to-many relationship with Appointment
         builder.HasMany(b => b.Appointments)
                .WithOne(a => a.Location)
                .HasForeignKey(a => a.LocationId);
