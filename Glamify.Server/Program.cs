@@ -10,14 +10,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontendOrigin",
+        builder => builder.WithOrigins("http://localhost:5173", "http://localhost:5174")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials()); 
+});
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors("AllowFrontendOrigin");
     app.UseSwagger();
     app.UseSwaggerUI();
 }

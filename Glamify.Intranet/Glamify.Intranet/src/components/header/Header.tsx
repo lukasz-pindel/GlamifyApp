@@ -1,11 +1,26 @@
 import * as React from "react";
-import { Container, Form, InputGroup, Navbar } from "react-bootstrap";
+import { Button, Container, Form, InputGroup, Navbar } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import header from "../../assets/header.jpg";
+import { AuthModal } from "./AuthModal";
 
 export const Header: React.FC = () => {
+  const [showModal, setShowModal] = React.useState(false);
+  const [isLoginModal, setIsLoginModal] = React.useState(true);
+
+  const handleLogin = () => {
+    setIsLoginModal(true);
+    setShowModal(true);
+  };
+
+  const handleSignUp = () => {
+    setIsLoginModal(false);
+    setShowModal(true);
+  };
+
   return (
+    <>
     <Navbar
       style={{
         height: "400px",
@@ -15,7 +30,7 @@ export const Header: React.FC = () => {
         zIndex: 1,
       }}
       expand="lg"
-    >
+      >
       <Container
         style={{
           display: "flex",
@@ -24,7 +39,7 @@ export const Header: React.FC = () => {
           justifyContent: "center",
           height: "100%",
         }}
-      >
+        >
         <Navbar.Brand style={{ position: "absolute", top: 15, left: 15 }}>
           <Link to="/" style={{ textDecoration: "none" }}>
             <h5 style={{ color: "white" }}>Glamify</h5>
@@ -38,6 +53,12 @@ export const Header: React.FC = () => {
           <Form.Control type="text" placeholder="Search" />
         </InputGroup>
       </Container>
+      <Navbar.Brand style={{ position: "absolute", top: 15, right: 15 }}>
+        <Button variant="outline-light" style={{marginRight: '10px'}} onClick={handleLogin}>Login</Button>
+        <Button variant="light" onClick={handleSignUp}>Sign Up</Button>
+      </Navbar.Brand>
     </Navbar>
+    <AuthModal show={showModal} onHide={() => setShowModal(false)} isLogin={isLoginModal} />
+    </>
   );
 };
