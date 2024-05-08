@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import UserService from '../../services/UserService';
+import React, { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import { useAuth } from "../../context/AuthContext";
+import { UserRequest } from "../../model/requests/UserRequest";
 
 interface AuthModalProps {
   show: boolean;
@@ -8,38 +9,34 @@ interface AuthModalProps {
   isLogin: boolean;
 }
 
-export const AuthModal: React.FC<AuthModalProps> = ({ show, onHide, isLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+export const AuthModal: React.FC<AuthModalProps> = ({
+  show,
+  onHide,
+  isLogin,
+}) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
-  const userService = new UserService("https://localhost:44360");
+  const handleSubmit = async () => {
+    try {
+      const user: UserRequest = {
+        username: username,
+        password: password,
+      };
 
-  const handleSubmit = () => {
-    if (isLogin) {
-        userService.login(username, password)
-            .then(user => {
-                console.log('Login successful', user);
-                onHide();
-            })
-            .catch(error => {
-                console.error('Login failed:', error.response?.data || error.message);
-            });
-    } else {
-        userService.register(username, password)
-            .then(user => {
-                console.log('Registration successful', user);
-                onHide(); 
-            })
-            .catch(error => {
-                console.error('Registration failed:', error.response?.data || error.message);
-            });
+      await login(user);
+      console.log("Login successful");
+      onHide();
+    } catch (error) {
+      console.error("Login or registration failed:", error);
     }
-};
+  };
 
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{isLogin ? 'Login' : 'Sign Up'}</Modal.Title>
+        <Modal.Title>{isLogin ? "Login" : "Sign Up"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -64,9 +61,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ show, onHide, isLogin }) =
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>Cancel</Button>
+        <Button variant="secondary" onClick={onHide}>
+          Cancel
+        </Button>
         <Button variant="primary" className="book-btn" onClick={handleSubmit}>
-          {isLogin ? 'Login' : 'Register'}
+          {isLogin ? "Login" : "Register"}
         </Button>
       </Modal.Footer>
     </Modal>

@@ -1,4 +1,5 @@
-﻿using Glamify.Domain.Entities;
+﻿using Glamify.API.DTOs.BusinessDTOs;
+using Glamify.Domain.Entities;
 using Glamify.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -43,8 +44,23 @@ namespace Glamify.API.Controllers
 
         // POST: api/Business
         [HttpPost]
-        public async Task<ActionResult<Business>> PostBusiness(Business business)
+        public async Task<ActionResult<Business>> CreateBusiness(CreateBusinessRequest request)
         {
+            var user = await _context.Users.FindAsync(request.OwnerUserId);
+            if (user == null)
+            {
+                return NotFound($"User with ID {request.OwnerUserId} not found.");
+            }
+
+            var business = new Business
+            {
+                Name = request.Name,
+                Address = request.Address,
+                Phone = request.Phone,
+                Email = request.Email,
+                UserId = request.OwnerUserId  
+            };
+
             _context.Businesses.Add(business);
             await _context.SaveChangesAsync();
 

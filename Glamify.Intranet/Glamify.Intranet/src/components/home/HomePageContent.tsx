@@ -10,15 +10,11 @@ export const HomePageContent: React.FC = () => {
         <Col md={6} lg={6}>
           <Card>
             <Card.Body>
-              <Card.Title>Manage Listings</Card.Title>
+              <Card.Title>Manage Business</Card.Title>
               <Card.Text>Add new places or update existing ones.</Card.Text>
-              <Link to={"/listings"}>
-                <Button
-                  variant="primary"
-                  href="#manage-listings"
-                  className="book-btn"
-                >
-                  Go to Listings
+              <Link to={"/business"}>
+                <Button variant="primary" className="book-btn">
+                  Go to Business
                 </Button>
               </Link>
             </Card.Body>
@@ -34,6 +30,25 @@ export const HomePageContent: React.FC = () => {
               <Link to={"/services"}>
                 <Button variant="primary" href="#services" className="book-btn">
                   Manage Services
+                </Button>
+              </Link>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row className="g-4 mt-3">
+        <Col md={6} lg={6}>
+          <Card>
+            <Card.Body>
+              <Card.Title>Manage Listings</Card.Title>
+              <Card.Text>Add new places or update existing ones.</Card.Text>
+              <Link to={"/listings"}>
+                <Button
+                  variant="primary"
+                  href="#manage-listings"
+                  className="book-btn"
+                >
+                  Go to Listings
                 </Button>
               </Link>
             </Card.Body>

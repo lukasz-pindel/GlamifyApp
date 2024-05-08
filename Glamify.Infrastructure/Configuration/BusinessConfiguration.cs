@@ -19,5 +19,9 @@ public class BusinessConfiguration : IEntityTypeConfiguration<Business>
         builder.HasMany(b => b.Appointments)
                .WithOne(a => a.Location)
                .HasForeignKey(a => a.LocationId);
+
+        builder.HasMany(b => b.Employees)
+               .WithOne(e => e.Business)
+               .HasForeignKey(e => e.BusinessId);
     }
 }

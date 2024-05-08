@@ -16,5 +16,6 @@ namespace Glamify.Domain.Entities
         public UserType UserType { get; set; } 
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+        public virtual ICollection<Business> OwnedBusinesses { get; set; } = new List<Business>();
     }
 }
