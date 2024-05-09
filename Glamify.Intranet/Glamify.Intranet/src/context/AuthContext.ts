@@ -5,6 +5,7 @@ import { UserRequest } from "../model/requests/UserRequest";
 export interface AuthContextType {
   user: User | null;
   login: (userData: UserRequest) => Promise<void>;
+  register: (userData: UserRequest) => Promise<void>;
   logout: () => void;
 }
 

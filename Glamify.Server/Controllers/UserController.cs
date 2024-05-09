@@ -1,4 +1,5 @@
-﻿using Glamify.Domain.Entities;
+﻿using Glamify.API.DTOs.UserDTOs;
+using Glamify.Domain.Entities;
 using Glamify.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +21,21 @@ namespace Glamify.API.Controllers
 
         // POST: api/User/register
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(User user)
+        public async Task<ActionResult<User>> Register(UserRequest request)
         {
-            if (_context.Users.Any(u => u.Username == user.Username))
+            if (_context.Users.Any(u => u.Username == request.Username))
             {
                 return BadRequest("Username already exists.");
             }
 
-            user.Password = HashPassword(user.Password); 
+            var user = new User
+            {
+                Email = request.Username,
+                Username = request.Username,
+                UserType = Domain.Enums.UserType.Admin
+            };
+
+            user.Password = HashPassword(request.Password); 
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -37,11 +45,11 @@ namespace Glamify.API.Controllers
 
         // POST: api/User/login
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(string username, string password)
+        public async Task<ActionResult<User>> Login(UserRequest request)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
 
-            if (user == null || !VerifyPassword(password, user.Password))
+            if (user == null || !VerifyPassword(request.Password, user.Password))
             {
                 return Unauthorized("Invalid username or password.");
             }

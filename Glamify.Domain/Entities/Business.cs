@@ -15,8 +15,8 @@ namespace Glamify.Domain.Entities
         public string Phone { get; set; } = null!;
         public string Email { get; set; } = null!;
         public BusinessType BusinessType { get; set; }
-        public int UserId { get; set; }  
-        public virtual User Owner { get; set; } = null!;
+        public int? UserId { get; set; }  
+        public virtual User? Owner { get; set; }
         public virtual ICollection<Service> ServicesOffered { get; set; } = new List<Service>();
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();

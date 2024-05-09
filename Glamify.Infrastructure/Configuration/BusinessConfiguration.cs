@@ -20,8 +20,17 @@ public class BusinessConfiguration : IEntityTypeConfiguration<Business>
                .WithOne(a => a.Location)
                .HasForeignKey(a => a.LocationId);
 
+        builder.HasMany(b => b.Ratings)
+               .WithOne(r => r.Business)
+               .HasForeignKey(r => r.BusinessId);
+
         builder.HasMany(b => b.Employees)
                .WithOne(e => e.Business)
                .HasForeignKey(e => e.BusinessId);
+
+        builder.HasOne(b => b.Owner)
+               .WithMany(u => u.OwnedBusinesses)
+               .HasForeignKey(b => b.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

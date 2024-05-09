@@ -42,11 +42,11 @@ export const Header: React.FC = () => {
             height: "100%",
           }}
         >
-          <Navbar.Brand style={{ position: "absolute", top: 15, left: 15 }}>
+          <div style={{ position: "absolute", top: 15, left: 15 }}>
             <Link to="/" style={{ textDecoration: "none" }}>
               <h5 style={{ color: "white" }}>Glamify</h5>
             </Link>
-          </Navbar.Brand>
+          </div>
           <h1 style={{ marginBottom: "20px", color: "white" }}>Glamify</h1>
           <InputGroup style={{ width: "400px" }}>
             <InputGroup.Text>
@@ -55,8 +55,8 @@ export const Header: React.FC = () => {
             <Form.Control type="text" placeholder="Search" />
           </InputGroup>
         </Container>
-        {!user && (
-          <Navbar.Brand style={{ position: "absolute", top: 15, right: 15 }}>
+        {!user ? (
+          <div style={{ position: "absolute", top: 15, right: 15 }}>
             <Button
               variant="outline-light"
               style={{ marginRight: "10px" }}
@@ -67,7 +67,13 @@ export const Header: React.FC = () => {
             <Button variant="light" onClick={handleSignUp}>
               Sign Up
             </Button>
-          </Navbar.Brand>
+          </div>
+        ): (
+          <div style={{ position: "absolute", top: 15, right: 15 }}>
+            <Button variant="outline-light" onClick={() => console.log("logout")}>
+              Logout
+            </Button>
+          </div>
         )}
       </Navbar>
       <AuthModal

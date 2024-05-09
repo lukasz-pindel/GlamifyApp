@@ -16,7 +16,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { login, register } = useAuth();
 
   const handleSubmit = async () => {
     try {
@@ -25,7 +25,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         password: password,
       };
 
-      await login(user);
+      if (isLogin) {
+        await login(user);
+      } else {
+        await register(user);
+      }
       console.log("Login successful");
       onHide();
     } catch (error) {

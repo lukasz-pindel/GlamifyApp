@@ -1,6 +1,10 @@
 export interface User {
-  id: number;
   username: string;
-  email?: string;
-  password: string;
+  password: string;  
+  email: string;
+  userType: number;
+  appointments: any[];  
+  ratings: any[];       
+  ownedBusinesses: any[]; 
+  id: number;
 }

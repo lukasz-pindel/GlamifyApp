@@ -28,7 +28,7 @@ export const HomePageContent: React.FC = () => {
                 Manage the services you offer at your locations.
               </Card.Text>
               <Link to={"/services"}>
-                <Button variant="primary" href="#services" className="book-btn">
+                <Button variant="primary" className="book-btn">
                   Manage Services
                 </Button>
               </Link>
@@ -45,7 +45,6 @@ export const HomePageContent: React.FC = () => {
               <Link to={"/listings"}>
                 <Button
                   variant="primary"
-                  href="#manage-listings"
                   className="book-btn"
                 >
                   Go to Listings
