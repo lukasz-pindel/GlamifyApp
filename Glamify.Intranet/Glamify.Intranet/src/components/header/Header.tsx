@@ -9,7 +9,7 @@ import { useAuth } from "../../context/AuthContext";
 export const Header: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [isLoginModal, setIsLoginModal] = React.useState(true);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogin = () => {
     setIsLoginModal(true);
@@ -70,7 +70,7 @@ export const Header: React.FC = () => {
           </div>
         ): (
           <div style={{ position: "absolute", top: 15, right: 15 }}>
-            <Button variant="outline-light" onClick={() => console.log("logout")}>
+            <Button variant="outline-light" onClick={logout}>
               Logout
             </Button>
           </div>

@@ -10,7 +10,7 @@ namespace Glamify.API.Controllers
     [ApiController]
     public class BusinessController : ControllerBase
     {
-        private readonly AppDbContext _context; 
+        private readonly AppDbContext _context;
         public BusinessController(AppDbContext context)
         {
             _context = context;
@@ -44,27 +44,49 @@ namespace Glamify.API.Controllers
 
         // POST: api/Business
         [HttpPost]
-        public async Task<ActionResult<Business>> CreateBusiness(CreateBusinessRequest request)
+        public async Task<ActionResult<Business>> CreateBusiness(CreateOrUpdateBusinessRequest request)
         {
-            var user = await _context.Users.FindAsync(request.OwnerUserId);
-            if (user == null)
+            if (request.Id > 0)
             {
-                return NotFound($"User with ID {request.OwnerUserId} not found.");
+                var existingBusiness = await _context.Businesses.FindAsync(request.Id);
+                if (existingBusiness == null)
+                {
+                    return NotFound($"Business with ID {request.Id} not found.");
+                }
+
+                existingBusiness.Name = request.Name;
+                existingBusiness.Address = request.Address;
+                existingBusiness.Phone = request.Phone;
+                existingBusiness.Email = request.Email;
+                existingBusiness.UserId = request.OwnerUserId;
+
+                _context.Businesses.Update(existingBusiness);
+                await _context.SaveChangesAsync();
+
+                return Ok(existingBusiness);
             }
-
-            var business = new Business
+            else
             {
-                Name = request.Name,
-                Address = request.Address,
-                Phone = request.Phone,
-                Email = request.Email,
-                UserId = request.OwnerUserId  
-            };
+                var user = await _context.Users.FindAsync(request.OwnerUserId);
+                if (user == null)
+                {
+                    return NotFound($"User with ID {request.OwnerUserId} not found.");
+                }
 
-            _context.Businesses.Add(business);
-            await _context.SaveChangesAsync();
+                var business = new Business
+                {
+                    Name = request.Name,
+                    Address = request.Address,
+                    Phone = request.Phone,
+                    Email = request.Email,
+                    UserId = request.OwnerUserId
+                };
 
-            return CreatedAtAction("GetBusiness", new { id = business.Id }, business);
+                _context.Businesses.Add(business);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetBusiness", new { id = business.Id }, business);
+            }
         }
 
         // DELETE: api/Business/5

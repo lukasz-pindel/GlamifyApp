@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { BusinessType } from "../../../model/enums/BusinessType";
 import BusinessService from "../../../services/BusinessService";
 import { useAuth } from "../../../context/AuthContext";
+import { Business } from "../../../model/Business";
+import { CreateBusinessRequest } from "../../../model/requests/CreateBusinessRequest";
 
 interface AddBusinessModalProps {
   show: boolean;
   onHide: () => void;
+  business?: Business;
 }
 
 const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
   show,
   onHide,
+  business
 }) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -22,26 +26,45 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
   );
   const { user } = useAuth();
 
-  const businessService = new BusinessService("https://localhost:44360");
-
-  const handleCreateBusiness = async () => {
-    if (!user?.id) {
-      return;
+  useEffect(() => {
+    if (business) {
+      setName(business.name);
+      setAddress(business.address);
+      setPhone(business.phone);
+      setEmail(business.email);
+      setBusinessType(business.businessType);
+    } else {
+      setName('');
+      setAddress('');
+      setPhone('');
+      setEmail('');
+      setBusinessType(BusinessType.Barbershop);
     }
+  }, [business]);
+
+  const businessService = new BusinessService("https://localhost:44360/api");
+
+  const handleSaveBusiness = async () => {
+    const businessData: CreateBusinessRequest = {
+      name,
+      address,
+      phone,
+      email,
+      businessType,
+      ownerUserId: user?.id!,
+    };
 
     try {
-      const result = await businessService.createBusiness({
-        name,
-        address,
-        phone,
-        email,
-        businessType,
-        ownerUserId: user?.id,
-      });
-      console.log("Business created:", result);
+      let result;
+      if (business) {
+        result = await businessService.updateBusiness(businessData);
+      } else {
+        result = await businessService.createBusiness(businessData);
+      }
+      console.log(business ? "Business updated:" : "Business created:", result);
       onHide();
     } catch (error) {
-      console.error("Error creating business:", error);
+      console.error(business ? "Error updating business:" : "Error creating business:", error);
     }
   };
 
@@ -110,7 +133,7 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
         <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleCreateBusiness}>
+        <Button variant="primary" onClick={handleSaveBusiness}>
           Create Business
         </Button>
       </Modal.Footer>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Glamify.Domain.Entities
@@ -16,6 +17,7 @@ namespace Glamify.Domain.Entities
         public UserType UserType { get; set; } 
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+        [JsonIgnore]
         public virtual ICollection<Business> OwnedBusinesses { get; set; } = new List<Business>();
     }
 }
