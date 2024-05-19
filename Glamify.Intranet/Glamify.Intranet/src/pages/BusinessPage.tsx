@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Button, Col, Row, ListGroup } from "react-bootstrap";
+import { Container, Button, Col, Row, ListGroup, Spinner } from "react-bootstrap";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import AddBusinessModal from "../components/home/business/AddBusinessModal";
@@ -10,6 +10,7 @@ export const BusinessPage: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [currentBusiness, setCurrentBusiness] = useState<Business | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   const businessService = new BusinessService("https://localhost:44360/api");
@@ -30,17 +31,19 @@ export const BusinessPage: React.FC = () => {
     fetchBusinesses();
   }, []);
 
-  const handleAddNewListing = () => {
-    setShowModal(true);
-  };
-
   const handleClose = () => {
     setShowModal(false);
     fetchBusinesses();
   };
 
-  const handleEditBusiness = (businessId: number) => {
-    console.log("Edit business", businessId);
+  const handleAddNewListing = () => {
+    setCurrentBusiness(undefined);
+    setShowModal(true);
+  };
+
+  const handleEditBusiness = (business: Business) => {
+    setCurrentBusiness(business);
+    setShowModal(true);
   };
 
   const handleDeleteBusiness = async (businessId: number) => {
@@ -49,6 +52,10 @@ export const BusinessPage: React.FC = () => {
   };
 
   return (
+    loading ? 
+    <Spinner animation="border" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </Spinner> :
     <Container style={{ minHeight: "800px" }}>
       <Row className="justify-content-between align-items-center mb-5 pt-4">
         <Col xs={6} md={2} className="text-md-right">
@@ -75,7 +82,7 @@ export const BusinessPage: React.FC = () => {
           <span>
             <Button
               className="explore-btn me-3"
-              onClick={() => handleEditBusiness(business.id)}
+              onClick={() => handleEditBusiness(business)}
               >
               Edit
             </Button>
@@ -89,7 +96,7 @@ export const BusinessPage: React.FC = () => {
         </ListGroup.Item>
         ))}
         </ListGroup>
-      <AddBusinessModal show={showModal} onHide={handleClose} />
+      <AddBusinessModal show={showModal} onHide={handleClose} business={currentBusiness}/>
     </Container>
   );
 };

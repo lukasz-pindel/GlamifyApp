@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { BusinessType } from "../../../model/enums/BusinessType";
+import { BusinessType, getBusinessTypeValue } from "../../../model/enums/BusinessType";
 import BusinessService from "../../../services/BusinessService";
 import { useAuth } from "../../../context/AuthContext";
 import { Business } from "../../../model/Business";
@@ -21,9 +21,7 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [businessType, setBusinessType] = useState<BusinessType>(
-    BusinessType.Barbershop,
-  );
+  const [businessType, setBusinessType] = useState("")
   const { user } = useAuth();
 
   useEffect(() => {
@@ -32,13 +30,13 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
       setAddress(business.address);
       setPhone(business.phone);
       setEmail(business.email);
-      setBusinessType(business.businessType);
+      setBusinessType(BusinessType[business.businessType]);
     } else {
       setName('');
       setAddress('');
       setPhone('');
       setEmail('');
-      setBusinessType(BusinessType.Barbershop);
+      setBusinessType("");
     }
   }, [business]);
 
@@ -46,11 +44,12 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
 
   const handleSaveBusiness = async () => {
     const businessData: CreateBusinessRequest = {
+      id: business?.id!,
       name,
       address,
       phone,
       email,
-      businessType,
+      businessType: getBusinessTypeValue(businessType as unknown as string),
       ownerUserId: user?.id!,
     };
 
@@ -71,7 +70,7 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Add a New Business</Modal.Title>
+        <Modal.Title>{business ? "Edit Business" : "Add a New Business"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -117,10 +116,12 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
               as="select"
               value={businessType}
               onChange={(e) =>
-                setBusinessType(e.target.value as unknown as BusinessType)
+                setBusinessType(e.target.value)
               }
             >
-              {Object.keys(BusinessType).map((type) => (
+              {Object.keys(BusinessType)
+              .filter(key => isNaN(Number(key))).
+              map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
@@ -134,7 +135,7 @@ const AddBusinessModal: React.FC<AddBusinessModalProps> = ({
           Close
         </Button>
         <Button variant="primary" onClick={handleSaveBusiness}>
-          Create Business
+          {business ? "Save Changes" : "Create Business"}
         </Button>
       </Modal.Footer>
     </Modal>

@@ -59,6 +59,7 @@ namespace Glamify.API.Controllers
                 existingBusiness.Phone = request.Phone;
                 existingBusiness.Email = request.Email;
                 existingBusiness.UserId = request.OwnerUserId;
+                existingBusiness.BusinessType = request.BusinessType;
 
                 _context.Businesses.Update(existingBusiness);
                 await _context.SaveChangesAsync();

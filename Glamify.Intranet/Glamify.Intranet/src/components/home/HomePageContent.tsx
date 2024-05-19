@@ -7,7 +7,7 @@ export const HomePageContent: React.FC = () => {
     <Container style={{ marginTop: "20px", minHeight: "800px" }}>
       <h1 className="my-4">Dashboard</h1>
       <Row className="g-4">
-        <Col md={6} lg={6}>
+        <Col md={6} lg={12}>
           <Card>
             <Card.Body>
               <Card.Title>Manage Business</Card.Title>
@@ -20,7 +20,7 @@ export const HomePageContent: React.FC = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={6} lg={6}>
+        {/* <Col md={6} lg={6}>
           <Card>
             <Card.Body>
               <Card.Title>Services</Card.Title>
@@ -34,25 +34,9 @@ export const HomePageContent: React.FC = () => {
               </Link>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
       <Row className="g-4 mt-3">
-        <Col md={6} lg={6}>
-          <Card>
-            <Card.Body>
-              <Card.Title>Manage Listings</Card.Title>
-              <Card.Text>Add new places or update existing ones.</Card.Text>
-              <Link to={"/listings"}>
-                <Button
-                  variant="primary"
-                  className="book-btn"
-                >
-                  Go to Listings
-                </Button>
-              </Link>
-            </Card.Body>
-          </Card>
-        </Col>
       </Row>
     </Container>
   );

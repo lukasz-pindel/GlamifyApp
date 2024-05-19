@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Container, Form, InputGroup, Navbar } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import header from "../../assets/header.jpg";
 import { AuthModal } from "./AuthModal";
 import { useAuth } from "../../context/AuthContext";
@@ -10,6 +10,7 @@ export const Header: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [isLoginModal, setIsLoginModal] = React.useState(true);
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     setIsLoginModal(true);
@@ -20,6 +21,11 @@ export const Header: React.FC = () => {
     setIsLoginModal(false);
     setShowModal(true);
   };
+
+  const handleLogout = () => {
+    navigate("/");
+    logout();
+  }
 
   return (
     <>
@@ -70,7 +76,7 @@ export const Header: React.FC = () => {
           </div>
         ): (
           <div style={{ position: "absolute", top: 15, right: 15 }}>
-            <Button variant="outline-light" onClick={logout}>
+            <Button variant="outline-light" onClick={handleLogout}>
               Logout
             </Button>
           </div>
