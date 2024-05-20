@@ -29,3 +29,22 @@ ops/*.retry
 # IDE
 .idea/
 .vs/
+
+# iOS
+# React Native
+# Ignore the CocoaPods folder
+/ios/Pods/
+/ios/Podfile.lock
+/ios/build/
+/ios/DerivedData/
+/ios/*.xcworkspace
+/ios/*.xcuserstate
+/ios/*.xcuserdata
+/ios/*/build/
+/ios/*.moved-aside
+
+# React Native Debugger
+/react-native-debugger*
+
+#specific
+/GlamifyiOS/android/
