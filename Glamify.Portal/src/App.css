@@ -95,6 +95,6 @@
 
 .tabs-container {
   background-color: transparent; 
-  z-index: 9999;
+  z-index: 5000;
   position: relative;
 }

@@ -1,5 +1,6 @@
 ﻿using Glamify.API.DTOs.BusinessDTOs;
 using Glamify.Domain.Entities;
+using Glamify.Domain.Enums;
 using Glamify.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,17 @@ namespace Glamify.API.Controllers
 
         // GET: api/Business
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Business>>> GetBusinesses()
+        public async Task<ActionResult<IEnumerable<Business>>> GetBusinesses([FromQuery]BusinessType? type)
         {
-            return await _context.Businesses.ToListAsync();
+            var query = _context.Businesses.AsQueryable();
+
+            if (type.HasValue)
+            {
+                query = query.Where(b => b.BusinessType == type.Value);
+            }
+            return await query.ToListAsync();
         }
+
 
         // GET: api/Business/5
         [HttpGet("{id}")]

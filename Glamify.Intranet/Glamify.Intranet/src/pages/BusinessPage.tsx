@@ -27,7 +27,6 @@ export const BusinessPage: React.FC = () => {
   };
   
   useEffect(() => {
-
     fetchBusinesses();
   }, []);
 

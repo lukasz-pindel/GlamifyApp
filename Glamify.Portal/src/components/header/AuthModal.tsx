@@ -38,7 +38,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered>
+    <Modal show={show} onHide={onHide} centered style={{zIndex: 6000}}>
       <Modal.Header closeButton>
         <Modal.Title>{isLogin ? "Login" : "Sign Up"}</Modal.Title>
       </Modal.Header>

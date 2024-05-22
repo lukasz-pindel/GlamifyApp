@@ -1,22 +1,45 @@
-import React from "react"
-import { Card, Container, Row, Col, Button } from "react-bootstrap"
-import { placesInCategories } from "../../../mockData/places"
+import React, { useEffect, useState } from "react"
+import { Card, Container, Row, Col, Button, Spinner } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { FiArrowLeft } from "react-icons/fi"
+import { Business } from "../../../model/Business"
+import BusinessService from "../../../services/BusinessService"
+import { BusinessType } from "../../../model/enums/BusinessType"
 
 export const BarbersList: React.FC = () => {
-  const barbers = placesInCategories.barbers
-  const navigate = useNavigate()
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<Business[]>([]);
+  const navigate = useNavigate();
+  const businessService = new BusinessService("https://localhost:44360/api");
+
+  const fetchBusinesses = async () => {
+    setLoading(true);
+    try {
+      const data = await businessService.getBusinessesOfType(BusinessType.Barbershop); 
+      setData(data);
+    } catch (error) {
+      console.error('Failed to fetch businesses', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
 
   const handleBackToExplore = () => {
-    navigate("/?tab=explore")
+    navigate("/?tab=explore");
   }
 
   const handleBooking = (id: number) => {
-    console.log(id)
+    console.log(id);
   }
 
   return (
+    isLoading ? (<Spinner animation="border" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </Spinner>) : 
     <Container className="mb-5 mt-5">
       <Row className="justify-content-between align-items-center mb-5 pt-4">
         <Col xs={6} md={2} className="text-md-right">
@@ -28,18 +51,8 @@ export const BarbersList: React.FC = () => {
           <h1>Featured Barbers</h1>
         </Col>
       </Row>
-      {barbers.map((barber) => (
+      {data.map((barber) => (
         <Row key={barber.id} className="mb-3">
-          <Col md={4}>
-            <Card>
-              <Card.Img
-                variant="top"
-                src={barber.logo}
-                alt={barber.name}
-                style={{ width: "100%", height: "200px", objectFit: "cover" }}
-              />
-            </Card>
-          </Col>
           <Col md={4}>
             <Card.Body>
               <Card.Title>{barber.name}</Card.Title>
