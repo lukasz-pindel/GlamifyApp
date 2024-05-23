@@ -5,67 +5,161 @@ import { FiArrowLeft } from "react-icons/fi"
 import { Business } from "../../../model/Business"
 import BusinessService from "../../../services/BusinessService"
 import { BusinessType } from "../../../model/enums/BusinessType"
+import ServicesService from "../../../services/ServicesService"
+import { Service } from "../../../model/Service"
+import { formatPriceToPln } from "../../../common/Formatters"
+import { BookingModal } from "../../../components/main/BookingModal"
+import AppointmentService from "../../../services/AppointmentService"
+import { AppointmentStatus } from "../../../model/Appointment"
+import { useAuth } from "../../../context/AuthContext"
+import { CreateAppointmentRequest } from "../../../model/requests/CreateAppointmentRequest"
 
 export const BarbersList: React.FC = () => {
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<Business[]>([]);
-  const navigate = useNavigate();
-  const businessService = new BusinessService("https://localhost:44360/api");
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const [data, setData] = useState<Business[]>([])
+  const [services, setServices] = useState<Service[]>([])
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [selectedBarber, setSelectedBarber] = useState<Business | null>(null)
+  const [selectedService, setSelectedService] = useState<Service | null>(null)
+  const { user } = useAuth()
+
+  const navigate = useNavigate()
+  const businessService = new BusinessService("https://localhost:44360/api")
+  const servicesService = new ServicesService("https://localhost:44360/api")
+  const appointmentService = new AppointmentService("https://localhost:44360/api")
 
   const fetchBusinesses = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const data = await businessService.getBusinessesOfType(BusinessType.Barbershop); 
-      setData(data);
+      const data = await businessService.getBusinessesOfType(BusinessType.Barbershop)
+      setData(data)
     } catch (error) {
-      console.error('Failed to fetch businesses', error);
+      console.error("Failed to fetch businesses", error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
+  const fetchServices = async () => {
+    setLoading(true)
+    try {
+      const data = await servicesService.getServices()
+      setServices(data)
+    } catch (error) {
+      console.error("Failed to fetch services", error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    fetchBusinesses();
-  }, []);
+    fetchBusinesses()
+    fetchServices()
+  }, [])
 
   const handleBackToExplore = () => {
-    navigate("/?tab=explore");
+    navigate("/?tab=explore")
   }
 
-  const handleBooking = (id: number) => {
-    console.log(id);
+  const handleBooking = async (appointmentTime: string) => {
+    if (!user || !selectedBarber || !selectedService) {
+      console.error("User, barber, or service data is missing")
+      return
+    }
+
+    const newAppointment: CreateAppointmentRequest = {
+      userId: user.id,
+      user: user,
+      locationId: selectedBarber.id,
+      location: selectedBarber,
+      appointmentTime: new Date(appointmentTime),
+      status: AppointmentStatus.Scheduled,
+      services: [selectedService],
+    }
+
+    try {
+      const createdAppointment = await appointmentService.createAppointment(newAppointment)
+      console.log("Created Appointment:", createdAppointment)
+    } catch (error) {
+      console.error("Failed to create appointment:", error)
+    }
   }
 
-  return (
-    isLoading ? (<Spinner animation="border" role="status">
-    <span className="visually-hidden">Loading...</span>
-  </Spinner>) : 
-    <Container className="mb-5 mt-5">
-      <Row className="justify-content-between align-items-center mb-5 pt-4">
-        <Col xs={6} md={2} className="text-md-right">
-          <Button variant="outline" onClick={handleBackToExplore} className="book-btn">
-            <FiArrowLeft /> Back to Explore
-          </Button>
-        </Col>
-        <Col xs={12} md={12} className="text-center">
-          <h1>Featured Barbers</h1>
-        </Col>
-      </Row>
-      {data.map((barber) => (
-        <Row key={barber.id} className="mb-3">
-          <Col md={4}>
-            <Card.Body>
-              <Card.Title>{barber.name}</Card.Title>
-              <Card.Text>{barber.address}</Card.Text>
-            </Card.Body>
-          </Col>
-          <Col md={4} className="text-md-right">
-            <Button variant="primary" onClick={() => handleBooking(barber.id)} className="book-btn">
-              Book
+  const openBookingModal = (barber: Business, service: Service) => {
+    setSelectedBarber(barber)
+    setSelectedService(service)
+    setShowModal(true)
+  }
+
+  const closeBookingModal = () => {
+    setSelectedBarber(null)
+    setSelectedService(null)
+    setShowModal(false)
+  }
+
+  return isLoading ? (
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  ) : (
+    <>
+      <Container className="mb-5 mt-5" style={{ minHeight: "800px" }}>
+        <Row className="justify-content-between align-items-center mb-5 pt-4">
+          <Col xs={6} md={2} className="text-md-right">
+            <Button variant="outline" onClick={handleBackToExplore} className="book-btn">
+              <FiArrowLeft /> Back to Explore
             </Button>
           </Col>
+          <Col xs={12} md={12} className="text-center">
+            <h1>Featured Barbers</h1>
+          </Col>
         </Row>
-      ))}
-    </Container>
+        <hr style={{ width: "100%" }} />
+        {data.map((barber) => (
+          <Row key={barber.id} className="mb-3">
+            <Col md={3}>
+              <Card.Body className="business-card">
+                <Card.Title>
+                  <h3>{barber.name}</h3>
+                </Card.Title>
+                <Card.Text>{barber.address}</Card.Text>
+              </Card.Body>
+            </Col>
+            <Col md={9} className="text-md-right">
+              {services
+                .filter((x) => x.businessId === barber.id)
+                .map((service) => (
+                  <>
+                    <div key={service.id} className="flex-container">
+                      <div className="flex-item name">
+                        <h4>{service.name}</h4>
+                        <text>{service.description}</text>
+                      </div>
+                      <div className="flex-item details">
+                        <span className="price">{formatPriceToPln(service.price)}</span>
+                        <Button
+                          variant="primary"
+                          onClick={() => openBookingModal(barber, service)}
+                          className="book-btn"
+                        >
+                          Book
+                        </Button>
+                      </div>
+                    </div>
+                    <hr style={{ width: "100%" }} />
+                  </>
+                ))}
+            </Col>
+          </Row>
+        ))}
+      </Container>
+      <BookingModal
+        show={showModal}
+        handleClose={closeBookingModal}
+        business={selectedBarber}
+        service={selectedService}
+        handleBooking={handleBooking}
+      />
+    </>
   )
 }

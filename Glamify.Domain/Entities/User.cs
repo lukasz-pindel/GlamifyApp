@@ -14,7 +14,8 @@ namespace Glamify.Domain.Entities
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public UserType UserType { get; set; } 
+        public UserType UserType { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
         [JsonIgnore]

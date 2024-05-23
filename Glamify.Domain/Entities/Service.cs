@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Glamify.Domain.Entities
@@ -12,6 +13,7 @@ namespace Glamify.Domain.Entities
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public decimal Price { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public int BusinessId { get; set; }
         public virtual Business Business { get; set; } = null!;

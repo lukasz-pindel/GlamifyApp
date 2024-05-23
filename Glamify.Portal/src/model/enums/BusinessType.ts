@@ -6,5 +6,5 @@ export enum BusinessType {
 }
 
 export function getBusinessTypeValue(typeKey: string): BusinessType {
-  return BusinessType[typeKey as keyof typeof BusinessType];
+  return BusinessType[typeKey as keyof typeof BusinessType]
 }

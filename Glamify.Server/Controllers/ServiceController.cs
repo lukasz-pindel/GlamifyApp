@@ -21,9 +21,9 @@ namespace Glamify.API.Controllers
         public async Task<ActionResult<IEnumerable<Service>>> GetServices()
         {
             return await _context.Services
-                .Include(s => s.Business)
-                .Include(s => s.Appointments)
+                .Include(s => s.Business)     
                 .ToListAsync();
+
         }
 
         // GET: api/Service/5

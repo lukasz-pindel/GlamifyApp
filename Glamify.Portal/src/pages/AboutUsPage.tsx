@@ -4,7 +4,7 @@ import { Container, Row, Col, Card } from "react-bootstrap"
 export const AboutUsPage: React.FC = () => {
   return (
     <Container style={{ marginTop: "20px", minHeight: "800px" }}>
-      <h1>About Us</h1>
+      <h1 className="mt-5">About Us</h1>
       <Row className="mb-5 mt-5">
         <h2>Our Mission</h2>
         <p>

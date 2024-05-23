@@ -98,3 +98,30 @@
   z-index: 5000;
   position: relative;
 }
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.flex-item.name {
+  flex: 1;
+  max-width: 20%;
+}
+.flex-item.details {
+  flex: 4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.price {
+  margin-left: 1rem;
+  margin-right: 0.25rem;
+}
+
+.business-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 5px;
+}

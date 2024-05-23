@@ -4,7 +4,8 @@ import { AuthProvider } from "./context/providers/AuthProvider"
 
 export const AppWrapper: React.FC = () => {
   return (
-  <AuthProvider>
-    <App />
-  </AuthProvider>)
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  )
 }
