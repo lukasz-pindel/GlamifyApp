@@ -20,12 +20,28 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   handleBooking,
 }) => {
   const [appointmentTime, setAppointmentTime] = useState("")
+  const [errors, setErrors] = useState({ appointmentTime: "", general: "" })
   const { user } = useAuth()
 
   const onBook = () => {
-    if (business && service) {
+    let valid = true
+    let newErrors = { appointmentTime: "", general: "" }
+
+    if (!user) {
+      newErrors.general = "You cannot book a service without being logged in."
+      valid = false
+    }
+
+    if (!appointmentTime) {
+      newErrors.appointmentTime = "Appointment time is required."
+      valid = false
+    }
+
+    if (valid && business && service) {
       handleBooking(appointmentTime)
       handleClose()
+    } else {
+      setErrors(newErrors)
     }
   }
 
@@ -52,6 +68,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               onChange={(e) => setAppointmentTime(e.target.value)}
               disabled={!user}
             />
+            {errors.appointmentTime && <div style={{ color: "red" }}>{errors.appointmentTime}</div>}
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -62,9 +79,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         <Button variant="primary" onClick={onBook} className="book-btn" disabled={!user}>
           Book
         </Button>
-        {!user && (
+        {errors.general && (
           <span style={{ color: "red", marginLeft: "10px" }}>
-            You cannot book a service without being logged in.
+            {errors.general}
           </span>
         )}
       </Modal.Footer>

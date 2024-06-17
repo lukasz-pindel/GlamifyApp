@@ -1,11 +1,35 @@
-import * as React from "react"
-import { Container, Form, Button, Row, Col } from "react-bootstrap"
+import * as React from "react";
+import { useState } from "react";
+import { Container, Form, Button, Row, Col } from "react-bootstrap";
 
 export const ContactUsPage: React.FC = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    alert("Thank you for contacting us!")
-  }
+    event.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length === 0) {
+      alert("Thank you for contacting us!");
+      // Clear form after submission
+      setName("");
+      setEmail("");
+      setMessage("");
+      setErrors({});
+    } else {
+      setErrors(validationErrors);
+    }
+  };
+
+  const validateForm = () => {
+    const errors: { name?: string; email?: string; message?: string } = {};
+    if (!name) errors.name = "Name is required";
+    if (!email) errors.email = "Email is required";
+    if (!message) errors.message = "Message is required";
+    return errors;
+  };
 
   return (
     <Container style={{ padding: "20px", minHeight: "800px", marginTop: "200px" }}>
@@ -19,7 +43,15 @@ export const ContactUsPage: React.FC = () => {
             Name
           </Form.Label>
           <Col sm={10}>
-            <Form.Control type="text" placeholder="Your Name" required className="mb-4" />
+            <Form.Control
+              type="text"
+              placeholder="Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mb-1"
+              isInvalid={!!errors.name}
+            />
+            {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
           </Col>
         </Form.Group>
 
@@ -28,7 +60,15 @@ export const ContactUsPage: React.FC = () => {
             Email
           </Form.Label>
           <Col sm={10}>
-            <Form.Control type="email" placeholder="Your Email" required className="mb-4" />
+            <Form.Control
+              type="email"
+              placeholder="Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mb-1"
+              isInvalid={!!errors.email}
+            />
+            {errors.email && <div style={{ color: "red" }}>{errors.email}</div>}
           </Col>
         </Form.Group>
 
@@ -41,9 +81,12 @@ export const ContactUsPage: React.FC = () => {
               as="textarea"
               rows={3}
               placeholder="Your Message"
-              required
-              className="mb-4"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="mb-1"
+              isInvalid={!!errors.message}
             />
+            {errors.message && <div style={{ color: "red" }}>{errors.message}</div>}
           </Col>
         </Form.Group>
         <Button
@@ -55,5 +98,5 @@ export const ContactUsPage: React.FC = () => {
         </Button>
       </Form>
     </Container>
-  )
-}
+  );
+};

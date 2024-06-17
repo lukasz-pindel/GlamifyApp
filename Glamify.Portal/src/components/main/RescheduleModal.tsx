@@ -13,10 +13,23 @@ const RescheduleModal: React.FC<RescheduleModalProps> = ({
   handleReschedule,
 }) => {
   const [newAppointmentTime, setNewAppointmentTime] = useState("")
+  const [errors, setErrors] = useState({ newAppointmentTime: "" })
 
   const onReschedule = () => {
-    handleReschedule(newAppointmentTime)
-    handleClose()
+    let valid = true
+    let newErrors = { newAppointmentTime: "" }
+
+    if (!newAppointmentTime) {
+      newErrors.newAppointmentTime = "New appointment time is required."
+      valid = false
+    }
+
+    if (valid) {
+      handleReschedule(newAppointmentTime)
+      handleClose()
+    } else {
+      setErrors(newErrors)
+    }
   }
 
   return (
@@ -33,6 +46,7 @@ const RescheduleModal: React.FC<RescheduleModalProps> = ({
               value={newAppointmentTime}
               onChange={(e) => setNewAppointmentTime(e.target.value)}
             />
+            {errors.newAppointmentTime && <div style={{ color: "red" }}>{errors.newAppointmentTime}</div>}
           </Form.Group>
         </Form>
       </Modal.Body>
